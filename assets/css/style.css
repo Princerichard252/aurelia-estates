@@ -1,0 +1,314 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 1. SCROLLBAR */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0f1729; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #C6A75E; }
+
+/* 2. NAVBAR LINK ANIMATION */
+.nav-link { position: relative; }
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -4px;
+    left: 0;
+    background-color: #C6A75E;
+    transition: width 0.3s ease;
+}
+.nav-link:hover::after { width: 100%; }
+
+/* 3. HERO ANIMATIONS */
+.reveal-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+
+/* Text Shimmer Effect for "Limitless" */
+@keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.animate-shimmer {
+    background-size: 200% auto;
+    animation: shimmer 4s linear infinite;
+}
+
+/* 4. STATS HOVER EFFECT */
+.stat-card {
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(198, 167, 94, 0.5); /* Gold */
+}
+
+/* Add to assets/css/style.css */
+
+/* Makes text readable on mobile over video */
+.text-shadow-mobile {
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* On mobile, apply this shadow to the H1 */
+@media (max-width: 768px) {
+    h1 {
+        text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+}
+
+/* Typewriter Cursor Blink */
+.animate-blink {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Ensure the gradient shimmer works on the typing text */
+.animate-shimmer {
+    background-size: 200% auto;
+    animation: shimmer 4s linear infinite;
+}
+
+#mobile-menu {
+    transition: all 0.3s ease-in-out;
+    transform-origin: top;
+}
+#mobile-menu.hidden {
+    opacity: 0;
+    transform: scaleY(0);
+    display: none; /* Tailwind 'hidden' does display:none, keep checks in mind */
+}
+/* Custom Hero Typography for Mobile */
+@media (max-width: 640px) {
+    h1 {
+        text-shadow: 0 10px 30px rgba(0,0,0,0.8); /* Deep shadow for pop */
+    }
+}
+
+/* Liquid Gold Shimmer Animation */
+@keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.animate-shimmer {
+    animation: shimmer 3s linear infinite;
+}
+
+/* 100dvh fixes the "jumpy" address bar issue on mobile phones */
+.h-\[100dvh\] {
+    height: 100dvh; 
+}
+
+/* Add to assets/css/style.css */
+
+/* Makes the big text readable even if the video has white spots */
+h1 span.block {
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Enhances the Gold Gradient Text */
+.text-gold {
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+/* --- Add to assets/css/style.css --- */
+
+/* Import a script font for the signature */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+.font-signature {
+    font-family: 'Herr Von Muellerhoff', cursive;
+    /* Make it look like ink sitting on paper */
+    text-shadow: 0 0 2px rgba(212, 175, 55, 0.3); 
+    font-weight: 400;
+}
+
+/* Background Color for About Section (Slightly lighter than pure black) */
+.bg-secondary {
+    background-color: #111625; /* A very deep navy/charcoal */
+}
+
+/* Image Hover Zoom Effect */
+.group:hover img {
+    filter: brightness(1.1);
+}
+
+/* Add to assets/css/style.css */
+
+/* Hide Scrollbar for Mobile Swipe Gallery */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Desktop Parallax Container */
+.perspective-container {
+    perspective: 1000px; /* Creates the 3D space */
+}
+
+/* Ensure the active filter button looks correct */
+.filter-btn.active {
+    color: #fff;
+    border-color: #D4AF37;
+}
+
+/* Add to assets/css/style.css */
+
+.latest-card {
+    transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform;
+}
+
+/* Hide scrollbar but keep functionality */
+#latest-slider {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+#latest-slider::-webkit-scrollbar {
+    display: none;
+}
+
+/* Optional: Subtle pulse for "Added Today" badge */
+@keyframes pulse-white {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.latest-card .bg-white {
+    animation: pulse-white 2s infinite;
+}
+
+/* Add to assets/css/style.css */
+
+/* Contact Form Input Transitions */
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label {
+    transform: translateY(-20px);
+    font-size: 10px;
+    color: #D4AF37; /* gold */
+}
+
+/* Custom select styling for luxury look */
+select {
+    background-image: none;
+}
+
+/* Ensure floating button doesn't cover content on tiny screens */
+@media (max-width: 480px) {
+    .fixed.bottom-8.right-8 {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* Add to assets/css/style.css */
+
+#advisory-form input::placeholder, 
+#advisory-form textarea::placeholder {
+    font-size: 13px;
+}
+
+#advisory-form input:focus, 
+#advisory-form textarea:focus {
+    border-bottom-width: 2px;
+}
+
+/* Success State for Form */
+.form-success {
+    border-color: #25D366 !important;
+}
+
+/* Footer Link Underline Animation */
+footer ul li a {
+    position: relative;
+    display: inline-block;
+}
+
+footer ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: #D4AF37; /* gold */
+    transition: width 0.3s ease;
+}
+
+footer ul li a:hover::after {
+    width: 100%;
+}
+/* Custom Radio Styling is handled by Tailwind peer-checked classes in the HTML */
+
+/* --- Add to assets/css/style.css --- */
+
+/* 1. PRELOADER ANIMATION */
+@keyframes progress {
+    0% { transform: scaleX(0); }
+    50% { transform: scaleX(0.7); }
+    100% { transform: scaleX(1); transform-origin: right; }
+}
+
+/* Class to hide loader */
+.loaded-content {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 2. GLOBAL LUXURY TWEAKS */
+
+/* Selection Color (When user highlights text) */
+::selection {
+    background: #D4AF37; /* Gold */
+    color: #0b0f19; /* Navy */
+}
+
+/* Smooth Scrolling for the whole page */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 3. SCROLL REVEAL UTILITY */
+/* Elements start hidden and slide up */
+.reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-up.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered delays for child elements */
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }

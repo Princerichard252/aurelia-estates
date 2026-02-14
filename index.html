@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Aurelia Estates - Luxury Real Estate</title>
+    <!-- Favicon Settings -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <!-- For Apple devices (Home screen icon) -->
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    <!-- Legacy support -->
+    <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
+    
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&display=swap" rel="stylesheet">
+    <!-- Local Config & Styles -->
+    <script src="assets/js/tailwind.config.js"></script>
+    <link href="assets/css/style.css" rel="stylesheet"/>
+</head>
+<body class="bg-primary text-white font-display antialiased overflow-x-hidden selection:bg-gold selection:text-white">
+
+
+    <!-- 
+  ========================================
+  LUXURY PRELOADER
+  ========================================
+-->
+<div id="preloader" class="fixed inset-0 z-[100] bg-primary flex flex-col items-center justify-center transition-opacity duration-700">
+    
+    <!-- Pulsing Logo Container -->
+    <div class="relative">
+        <!-- Outer Ring -->
+        <div class="absolute inset-0 border border-gold/30 rounded-full animate-ping opacity-20"></div>
+        <div class="absolute inset-0 border border-gold/20 rounded-full animate-pulse delay-100"></div>
+        
+        <!-- The Logo (A) -->
+        <div class="w-24 h-24 bg-gradient-to-br from-gold to-gold-dark text-primary flex items-center justify-center rounded-sm font-serif font-bold text-5xl shadow-[0_0_30px_rgba(212,175,55,0.4)] relative z-10">
+            A
+        </div>
+    </div>
+
+    <!-- Loading Text -->
+    <div class="mt-8 text-center space-y-2">
+        <p class="text-gold text-xs font-bold uppercase tracking-[0.4em] animate-pulse">Loading Experience</p>
+        <div class="w-32 h-0.5 bg-white/10 mx-auto rounded-full overflow-hidden">
+            <div class="h-full bg-gold w-full origin-left animate-[progress_1.5s_ease-in-out_infinite]"></div>
+        </div>
+    </div>
+</div>
+<!-- 
+  ========================================
+  RESPONSIVE PREMIUM NAVBAR
+  ========================================
+-->
+<nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-primary/80 backdrop-blur-md border-b border-white/5" id="main-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-24">
+            
+<!-- 1. LOGO -->
+            <a href="#" class="flex-shrink-0 flex items-center gap-3 group">
+                
+                <!-- Logo Image Icon -->
+                <!-- Ensure your image is a transparent PNG -->
+                <img 
+                    src="assets/images/logo.png" 
+                    alt="Aurelia Estates" 
+                    class="h-10 w-auto object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:brightness-110"
+                />
+
+                <!-- Text Wordmark -->
+                <span class="font-serif font-semibold text-2xl tracking-tight text-white">
+                    Aurelia <span class="text-gold">Estates</span>
+                </span>
+            </a>
+            <!-- 2. DESKTOP MENU (Hidden on Mobile) -->
+            <div class="hidden xl:flex items-center space-x-8">
+                <a class="nav-link text-xs uppercase tracking-widest text-gray-300 hover:text-white transition-colors py-2" href="#">Home</a>
+                <a class="nav-link text-xs uppercase tracking-widest text-gray-300 hover:text-white transition-colors py-2" href="#about">About Us</a>
+                <a class="nav-link text-xs uppercase tracking-widest text-gray-300 hover:text-white transition-colors py-2" href="#services">Services</a>
+                <a class="nav-link text-xs uppercase tracking-widest text-gray-300 hover:text-white transition-colors py-2" href="#properties">Our Properties</a>
+                <a class="nav-link text-xs uppercase tracking-widest text-gray-300 hover:text-white transition-colors py-2" href="#latest">Latest Listings</a>
+                <a class="nav-link text-xs uppercase tracking-widest text-gray-300 hover:text-white transition-colors py-2" href="#contact">Contact</a>
+            </div>
+
+            <!-- 3. DESKTOP CTA BUTTON -->
+            <div class="hidden xl:flex items-center">
+                <a href="#inspection" class="px-6 py-3 bg-gold text-primary text-xs font-bold uppercase tracking-widest rounded-sm hover:bg-white transition-all duration-300 shadow-lg transform hover:-translate-y-0.5">
+                    Book Inspection
+                </a>
+            </div>
+
+            <!-- 4. MOBILE HAMBURGER BUTTON -->
+            <div class="xl:hidden flex items-center">
+                <button id="mobile-menu-btn" class="text-white hover:text-gold transition-colors focus:outline-none">
+                    <span class="material-icons-outlined text-3xl">menu</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+      5. MOBILE MENU DRAWER 
+      (Hidden by default, slides down/fades in via JS)
+    -->
+    <div id="mobile-menu" class="hidden xl:hidden absolute top-24 left-0 w-full bg-primary/95 backdrop-blur-xl border-b border-white/10 shadow-2xl transition-all duration-300 origin-top">
+        <div class="px-4 pt-4 pb-8 space-y-4 flex flex-col items-center">
+            
+            <a class="block w-full text-center text-sm uppercase tracking-widest text-white hover:text-gold py-3 border-b border-white/5" href="#">Home</a>
+            <a class="block w-full text-center text-sm uppercase tracking-widest text-white hover:text-gold py-3 border-b border-white/5" href="#about">About Us</a>
+            <a class="block w-full text-center text-sm uppercase tracking-widest text-white hover:text-gold py-3 border-b border-white/5" href="#services">Services</a>
+            <a class="block w-full text-center text-sm uppercase tracking-widest text-white hover:text-gold py-3 border-b border-white/5" href="#properties">Our Properties</a>
+            <a class="block w-full text-center text-sm uppercase tracking-widest text-white hover:text-gold py-3 border-b border-white/5" href="#latest">Latest Listings</a>
+            <a class="block w-full text-center text-sm uppercase tracking-widest text-white hover:text-gold py-3 border-b border-white/5" href="#contact">Contact</a>
+            
+            <!-- Mobile CTA Button -->
+            <div class="pt-4 w-full px-8">
+                <a href="#inspection" class="block w-full text-center px-6 py-4 bg-gold text-primary text-sm font-bold uppercase tracking-widest rounded-sm hover:bg-white transition-colors">
+                    Book Inspection
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<!-- 
+  ========================================
+  1. HERO SECTION (Replace your existing <header>)
+  ========================================
+-->
+<header class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+    
+    <!-- Background Video -->
+    <div class="absolute inset-0 z-0">
+        <!-- Heavier gradient on mobile for better text readability -->
+        <div class="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-primary/90 z-10"></div>
+        <video autoplay muted loop playsinline class="w-full h-full object-cover scale-105">
+            <source src="assets/video/hero-background.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative z-20 w-full max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 text-center pt-20">
+        
+        <!-- Badge -->
+        <div class="inline-block mb-6 px-5 py-2 border border-white/20 rounded-full bg-black/30 backdrop-blur-md shadow-2xl reveal-up">
+            <span class="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-gold animate-pulse">
+                Defining Luxury Since 1999
+            </span>
+        </div>
+
+        <!-- HEADLINE with Dynamic Typing Effect -->
+<h1 class="relative z-20 font-serif text-white mb-10 reveal-up delay-100 flex flex-col items-center">
+    
+    <!-- 1. STATIC TEXT: Massive & Tight -->
+    <span class="flex flex-col items-center leading-[0.85] tracking-tighter drop-shadow-2xl">
+        <!-- "Live" -->
+        <span class="block text-[5.5rem] sm:text-8xl md:text-9xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
+            Dare To
+        </span>
+        
+        <!-- "Without" (Italicized for style) -->
+        <span class="block text-[5.5rem] sm:text-8xl md:text-9xl font-bold italic text-gold relative">
+            <!-- Subtle glow behind the gold text -->
+            <span class="absolute inset-0 blur-xl bg-gold/20 mix-blend-screen hidden sm:block"></span>
+            Go Beyond
+        </span>
+    </span>
+
+    <!-- 2. DYNAMIC TEXT: Sleek & Modern -->
+    <span class="mt-6 block relative">
+        <!-- Decorative line above -->
+        <span class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-[1px] bg-white/30"></span>
+        
+        <span class="text-lg sm:text-2xl md:text-3xl font-sans font-light uppercase tracking-[0.35em] text-white/90">
+            THE 
+            <span 
+                id="typewriter-text" 
+                class="font-medium text-gold border-b border-gold/50 pb-1"
+            >EXPECTED</span>
+            <span class="animate-pulse text-gold">|</span>
+        </span>
+    </span>
+    
+</h1>
+
+        <!-- Subtext -->
+        <p class="text-gray-200 text-lg md:text-xl font-light mb-10 max-w-xl mx-auto reveal-up delay-200 leading-relaxed drop-shadow-md">
+            We curate the backdrop for your life's most defining moments. Welcome to the new standard.
+        </p>
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 reveal-up delay-300 w-full px-4 sm:px-0">
+            <a href="#properties" class="w-full sm:w-auto px-8 py-4 bg-gold text-primary font-bold text-xs uppercase tracking-widest rounded-sm shadow-lg hover:bg-white transition-all duration-300 transform hover:-translate-y-1">
+                Explore Collection
+            </a>
+            <a href="#contact" class="w-full sm:w-auto px-8 py-4 border border-white/30 bg-white/5 backdrop-blur-sm text-white font-bold text-xs uppercase tracking-widest rounded-sm hover:bg-white hover:text-primary transition-all duration-300">
+                Contact Advisory
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- 
+  ========================================
+  2. STATS SECTION (Replace your existing Stats <section>)
+  ========================================
+-->
+<section id="stats-section" class="bg-primary py-20 text-white border-y border-white/10 relative z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 text-center divide-white/5">
+            
+            <!-- Item 1 -->
+            <div class="group">
+                <p class="font-serif text-4xl md:text-5xl text-gold mb-2 font-light">
+                    $<span class="counter" data-target="850">0</span>M+
+                </p>
+                <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-[0.25em] group-hover:text-white transition-colors">Transactions</p>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="group">
+                <p class="font-serif text-4xl md:text-5xl text-gold mb-2 font-light">
+                    <span class="counter" data-target="12">0</span>
+                </p>
+                <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-[0.25em] group-hover:text-white transition-colors">Global Offices</p>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="group">
+                <p class="font-serif text-4xl md:text-5xl text-gold mb-2 font-light">
+                    <span class="counter" data-target="500">0</span>+
+                </p>
+                <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-[0.25em] group-hover:text-white transition-colors">Exclusive Homes</p>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="group">
+                <p class="font-serif text-4xl md:text-5xl text-gold mb-2 font-light">
+                    <span class="counter" data-target="25">0</span>y
+                </p>
+                <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-[0.25em] group-hover:text-white transition-colors">Excellence</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 
+  ========================================
+  LUXURY ABOUT SECTION (Editorial Style)
+  ========================================
+-->
+<!-- 
+  ========================================
+  ABOUT SECTION: HYBRID SCROLL EXPERIENCE
+  ========================================
+-->
+<section id="about" class="relative bg-secondary">
+
+    <!-- 
+      A. MOBILE ONLY: HORIZONTAL SCROLL TRACK
+      (Visible on Mobile/Tablet -> Hidden on Desktop)
+      This container is 300vh tall to force the user to scroll "through" it.
+    -->
+    <div id="mobile-scroll-track" class="lg:hidden relative h-[300vh]">
+        
+        <!-- Sticky Viewport: Stays pinned to the screen -->
+        <div class="sticky top-0 h-[100dvh] overflow-hidden">
+            
+            <!-- The Filmstrip: Moves sideways as you scroll down -->
+            <div id="mobile-filmstrip" class="flex h-full w-[300vw] will-change-transform">
+                
+                <!-- Image 1: Architecture -->
+                <div class="w-[100vw] h-full relative">
+                    <img src="assets/images/about-image.jpg" class="w-full h-full object-cover" alt="Architecture">
+                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                        <h3 class="font-serif text-5xl text-white/90 drop-shadow-xl">The <span class="text-gold italic">Vision</span></h3>
+                    </div>
+                </div>
+
+                <!-- Image 2: Details -->
+                <div class="w-[100vw] h-full relative border-l border-white/10">
+                    <img src="assets/images/about-1.jpg" class="w-full h-full object-cover" alt="Details">
+                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                        <h3 class="font-serif text-5xl text-white/90 drop-shadow-xl">The <span class="text-gold italic">Craft</span></h3>
+                    </div>
+                </div>
+
+                <!-- Image 3: Lifestyle -->
+                <div class="w-[100vw] h-full relative border-l border-white/10">
+                    <img src="assets/images/about-2.jpg" class="w-full h-full object-cover" alt="Lifestyle">
+                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                        <h3 class="font-serif text-5xl text-white/90 drop-shadow-xl">The <span class="text-gold italic">Life</span></h3>
+                    </div>
+                </div>
+
+              
+            </div>
+            
+            <!-- Scroll Progress Indicator (Bottom Bar) -->
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 w-24 h-1 bg-white/20 rounded-full overflow-hidden">
+                <div id="scroll-progress-bar" class="h-full bg-gold w-0"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 
+      B. DESKTOP ONLY: PARALLAX GRID
+      (Hidden on Mobile -> Visible on Desktop) 
+    -->
+    <div class="hidden lg:block relative py-32 max-w-7xl mx-auto px-8">
+        <div class="grid grid-cols-2 gap-24 items-center">
+            
+            <!-- Desktop Parallax Images -->
+            <div class="relative h-[600px] perspective-container">
+                <!-- Back Frame -->
+                        <div class="parallax-layer absolute top-0 left-10 w-[80%] h-[90%] border border-gold/20 rounded-sm z-0" data-speed="2"></div>
+                <!-- Main Image -->
+        <div class="parallax-layer absolute top-8 left-0 w-[75%] h-[85%] rounded-sm overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-10" data-speed="4">
+            <img src="assets/images/about-image.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-[2s]" alt="Main Architecture">
+            <div class="absolute inset-0 bg-primary/20 hover:bg-transparent transition-colors duration-500"></div>
+        </div>
+                <!-- Detail Image -->
+        <div class="parallax-layer absolute bottom-0 right-0 w-[45%] h-[40%] rounded-sm overflow-hidden shadow-2xl border-4 border-secondary z-20 group" data-speed="7">
+            <img src="assets/images/about-detail.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Detail Shot">
+        </div>
+                <!-- Layer 4: Floating Badge - Moves Opposite -->
+                <div class="parallax-layer absolute top-[40%] -right-8 z-30" data-speed="-3">
+                    <div class="bg-primary/95 backdrop-blur-xl border border-gold/30 p-6 shadow-xl max-w-[180px]">
+                        <p class="font-serif text-5xl text-gold">25<span class="text-2xl text-white">+</span></p>
+                        <p class="text-[10px] text-gray-300 uppercase tracking-widest mt-2">Years of<br>Excellence</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Text -->
+            <div class="relative reveal-up delay-200">
+                
+                <!-- Section Label -->
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="h-px w-12 bg-gold"></span>
+                    <span class="text-gold text-xs font-bold uppercase tracking-[0.25em]">Our Philosophy</span>
+                </div>
+
+                <!-- Headline -->
+                <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-8 leading-tight">
+                    We Don't Just Sell Homes. <br/>
+                    <span class="italic text-gray-400">We Curate Legacies.</span>
+                </h2>
+
+                <!-- Body Text -->
+                <p class="text-gray-400 text-lg font-light leading-relaxed mb-8">
+                    In a world of noise, Aurelia Estates offers the silence of perfection. We believe that true luxury isn't just about square footage or amenities—it's about the feeling of arrival. 
+                </p>
+                <p class="text-gray-400 text-lg font-light leading-relaxed mb-10">
+                    From the sun-drenched hills of Lagos to the private enclaves of the world, our portfolio is a collection of the extraordinary, hand-picked for those who refuse to compromise.
+                </p>
+
+                <!-- Signature & CTA -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-8">
+                    <a href="#contact" class="px-8 py-4 border border-white/20 hover:border-gold text-white hover:text-gold text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300">
+                        Contact Advisory
+                    </a>
+                    
+                    <div class="text-right mt-8 mr-4">
+                        <!-- "Sincerely," label -->
+                        <p class="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-2">Sincerely,</p>
+                        
+                        <!-- The Signature -->
+                        <span class="font-signature text-6xl text-gold/90 block transform -rotate-6 origin-bottom-right drop-shadow-lg opacity-90">
+                            Aurelia Team
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 
+      C. TEXT CONTENT FOR MOBILE 
+      (Appears after you finish scrolling through images)
+    -->
+    <div class="lg:hidden relative z-10 bg-secondary px-6 py-20 text-center border-t border-white/5">
+        <span class="text-gold text-xs font-bold uppercase tracking-[0.25em] mb-4 block">Our Philosophy</span>
+        <h2 class="font-serif text-4xl text-white mb-6">
+            We Don't Just Sell Homes. <br/>
+            <span class="italic text-gray-500">We Curate Legacies.</span>
+        </h2>
+                <p class="text-gray-400 text-lg font-light leading-relaxed mb-8">
+                    In a world of noise, Aurelia Estates offers the silence of perfection. We believe that true luxury isn't just about square footage or amenities—it's about the feeling of arrival. 
+                </p>
+                <p class="text-gray-400 text-lg font-light leading-relaxed mb-10">
+                    From the sun-drenched hills of Lagos to the private enclaves of the world, our portfolio is a collection of the extraordinary, hand-picked for those who refuse to compromise.
+                </p>
+                    <a href="#contact" class="px-8 py-4 border border-white/20 hover:border-gold text-white hover:text-gold text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300">
+                        Contact Advisory
+                    </a>
+                                    <div class="text-right mt-8 mr-4">
+                        <!-- "Sincerely," label -->
+                        <p class="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-2">Sincerely,</p>
+                        
+                        <!-- The Signature -->
+                        <span class="font-signature text-6xl text-gold/90 block transform -rotate-6 origin-bottom-right drop-shadow-lg opacity-90">
+                            Aurelia Team
+                        </span>
+                    </div>
+    </div>
+
+</section>
+
+<!-- 
+  ========================================
+  SERVICES: THE CONCIERGE (Interactive Split)
+  ========================================
+-->
+<section id="services" class="bg-secondary py-24 relative border-t border-white/5">
+    
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="mb-16 md:mb-24 reveal-up">
+            <span class="text-gold text-xs font-bold uppercase tracking-[0.25em] mb-4 block">Our Expertise</span>
+            <h2 class="font-serif text-4xl md:text-5xl text-white">
+                Beyond The <span class="italic text-gray-500">Transaction</span>
+            </h2>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 items-stretch">
+            
+            <!-- 
+              COLUMN 1: THE SERVICE LIST (Interactive Menu)
+            -->
+            <div class="w-full lg:w-1/2 flex flex-col justify-center space-y-2 relative z-10">
+                
+                <!-- Service Item 1 -->
+                <div class="service-item group relative border-b border-white/10 hover:border-gold transition-colors duration-500 cursor-pointer py-8" data-image="service-sales">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-baseline gap-6">
+                            <span class="text-xs text-gray-500 font-mono group-hover:text-gold transition-colors">01</span>
+                            <h3 class="font-serif text-2xl md:text-3xl text-white group-hover:translate-x-4 transition-transform duration-500">
+                                Property Sales
+                            </h3>
+                        </div>
+                        <span class="material-icons-outlined text-gray-600 group-hover:text-gold transition-colors rotate-0 group-hover:-rotate-45 duration-300">arrow_forward</span>
+                    </div>
+                    <p class="mt-4 text-gray-400 text-sm font-light leading-relaxed max-w-md opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-20 transition-all duration-500 overflow-hidden">
+                        Access to off-market listings and exclusive penthouses in Lagos's most coveted zip codes.
+                    </p>
+                </div>
+
+                <!-- Service Item 2 -->
+                <div class="service-item group relative border-b border-white/10 hover:border-gold transition-colors duration-500 cursor-pointer py-8" data-image="service-management">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-baseline gap-6">
+                            <span class="text-xs text-gray-500 font-mono group-hover:text-gold transition-colors">02</span>
+                            <h3 class="font-serif text-2xl md:text-3xl text-white group-hover:translate-x-4 transition-transform duration-500">
+                                Estate Management
+                            </h3>
+                        </div>
+                        <span class="material-icons-outlined text-gray-600 group-hover:text-gold transition-colors rotate-0 group-hover:-rotate-45 duration-300">arrow_forward</span>
+                    </div>
+                    <p class="mt-4 text-gray-400 text-sm font-light leading-relaxed max-w-md opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-20 transition-all duration-500 overflow-hidden">
+                        White-glove maintenance and tenant relations for absentee owners and global investors.
+                    </p>
+                </div>
+
+                <!-- Service Item 3 -->
+                <div class="service-item group relative border-b border-white/10 hover:border-gold transition-colors duration-500 cursor-pointer py-8" data-image="service-legal">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-baseline gap-6">
+                            <span class="text-xs text-gray-500 font-mono group-hover:text-gold transition-colors">03</span>
+                            <h3 class="font-serif text-2xl md:text-3xl text-white group-hover:translate-x-4 transition-transform duration-500">
+                                Legal Advisory
+                            </h3>
+                        </div>
+                        <span class="material-icons-outlined text-gray-600 group-hover:text-gold transition-colors rotate-0 group-hover:-rotate-45 duration-300">arrow_forward</span>
+                    </div>
+                    <p class="mt-4 text-gray-400 text-sm font-light leading-relaxed max-w-md opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-20 transition-all duration-500 overflow-hidden">
+                        Navigating complex title transfers and C of O documentation with precision and speed.
+                    </p>
+                </div>
+
+                <!-- Service Item 4 -->
+                <div class="service-item group relative border-b border-white/10 hover:border-gold transition-colors duration-500 cursor-pointer py-8" data-image="service-design">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-baseline gap-6">
+                            <span class="text-xs text-gray-500 font-mono group-hover:text-gold transition-colors">04</span>
+                            <h3 class="font-serif text-2xl md:text-3xl text-white group-hover:translate-x-4 transition-transform duration-500">
+                                Interior Concierge
+                            </h3>
+                        </div>
+                        <span class="material-icons-outlined text-gray-600 group-hover:text-gold transition-colors rotate-0 group-hover:-rotate-45 duration-300">arrow_forward</span>
+                    </div>
+                    <p class="mt-4 text-gray-400 text-sm font-light leading-relaxed max-w-md opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-20 transition-all duration-500 overflow-hidden">
+                        Curating bespoke furniture and art collections to turn a house into a masterpiece.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- 
+              COLUMN 2: THE IMAGE DISPLAY 
+              (Hidden on Mobile, Sticky on Desktop)
+            -->
+            <div class="hidden lg:block w-1/2 relative min-h-[500px]">
+                <div class="sticky top-32 h-[500px] w-full rounded-sm overflow-hidden shadow-2xl border border-white/5">
+                    
+                    <!-- Default Image (Sales) -->
+                    <img id="service-img-display" src="assets/images/prop-1.jpg" alt="Service Experience" class="absolute inset-0 w-full h-full object-cover transition-all duration-700 transform scale-100 filter brightness-75">
+                    
+                    <!-- Overlay Badge -->
+                    <div class="absolute bottom-8 left-8 bg-black/50 backdrop-blur-md border border-white/10 px-6 py-4">
+                        <p class="text-gold text-xs uppercase tracking-widest font-bold mb-1">Aurelia Standard</p>
+                        <p class="text-white font-serif text-xl italic" id="service-img-caption">The Art of the Deal</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 
+  ========================================
+  THE COLLECTION (PROPERTIES)
+  ========================================
+-->
+<section id="properties" class="py-32 bg-primary relative">
+    
+    <!-- Header -->
+    <div class="max-w-7xl mx-auto px-6 mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8 reveal-up">
+        <div>
+            <span class="text-gold text-xs font-bold uppercase tracking-[0.25em] mb-4 block">The Collection</span>
+            <h2 class="font-serif text-4xl md:text-5xl text-white">
+                Curated <span class="italic text-gray-500">Exclusives</span>
+            </h2>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap gap-6 border-b border-white/10 pb-4" id="property-filters">
+            <button class="filter-btn active text-xs uppercase tracking-widest text-white hover:text-gold transition-colors pb-2 border-b-2 border-gold" data-filter="all">All</button>
+            <button class="filter-btn text-xs uppercase tracking-widest text-gray-400 hover:text-white transition-colors pb-2 border-b-2 border-transparent hover:border-white/20" data-filter="penthouse">Penthouses</button>
+            <button class="filter-btn text-xs uppercase tracking-widest text-gray-400 hover:text-white transition-colors pb-2 border-b-2 border-transparent hover:border-white/20" data-filter="villa">Villas</button>
+            <button class="filter-btn text-xs uppercase tracking-widest text-gray-400 hover:text-white transition-colors pb-2 border-b-2 border-transparent hover:border-white/20" data-filter="estate">Estates</button>
+        </div>
+    </div>
+
+    <!-- The Grid -->
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="property-grid">
+
+        <!-- CARD 1 (Featured - Spans 2 cols on Desktop) -->
+        <div class="group relative h-[500px] lg:col-span-2 md:col-span-2 cursor-pointer overflow-hidden rounded-sm property-card" data-category="penthouse">
+            <img src="assets/images/prop-1.jpg" alt="Luxury Home" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            
+            <!-- Badge -->
+            <div class="absolute top-4 left-4 bg-gold text-primary text-[10px] font-bold uppercase tracking-widest px-3 py-1">
+                Featured
+            </div>
+
+            <!-- Hover Details (Glassmorphism) -->
+            <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <div class="border-l-2 border-gold pl-4">
+                    <h3 class="font-serif text-3xl text-white mb-1">The Eko Atlantic Penthouse</h3>
+                    <p class="text-gray-300 text-sm mb-4">Lagos, Nigeria</p>
+                    
+                    <!-- Hidden details reveal on hover -->
+                    <div class="grid grid-cols-3 gap-4 max-w-xs opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                        <div>
+                            <span class="block text-gold text-lg font-serif">$8.5M</span>
+                            <span class="text-[10px] text-gray-400 uppercase">Price</span>
+                        </div>
+                        <div>
+                            <span class="block text-white text-lg font-serif">5</span>
+                            <span class="text-[10px] text-gray-400 uppercase">Beds</span>
+                        </div>
+                        <div>
+                            <span class="block text-white text-lg font-serif">850</span>
+                            <span class="text-[10px] text-gray-400 uppercase">Sqm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="group relative h-[500px] cursor-pointer overflow-hidden rounded-sm property-card" data-category="villa">
+            <img src="assets/images/prop-2.jpg" alt="Luxury Home" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
+                <div class="border-l-2 border-white/30 pl-4 group-hover:border-gold transition-colors">
+                    <h3 class="font-serif text-2xl text-white mb-1">Banana Island Villa</h3>
+                    <div class="flex justify-between items-end mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-gold font-serif text-xl">$4.2M</span>
+                        <span class="text-xs uppercase tracking-widest text-white border-b border-white">View</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="group relative h-[400px] cursor-pointer overflow-hidden rounded-sm property-card" data-category="estate">
+            <img src="assets/images/prop-3.jpg" alt="Luxury Home" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
+                <div class="border-l-2 border-white/30 pl-4 group-hover:border-gold transition-colors">
+                    <h3 class="font-serif text-2xl text-white mb-1">Ikoyi Royal Estate</h3>
+                    <div class="flex justify-between items-end mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-gold font-serif text-xl">$12M</span>
+                        <span class="text-xs uppercase tracking-widest text-white border-b border-white">View</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="group relative h-[400px] cursor-pointer overflow-hidden rounded-sm property-card" data-category="penthouse">
+            <img src="assets/images/prop-4.jpg" alt="Luxury Home" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
+                <div class="border-l-2 border-white/30 pl-4 group-hover:border-gold transition-colors">
+                    <h3 class="font-serif text-2xl text-white mb-1">Victoria Island Loft</h3>
+                    <div class="flex justify-between items-end mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-gold font-serif text-xl">$2.1M</span>
+                        <span class="text-xs uppercase tracking-widest text-white border-b border-white">View</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="group relative h-[400px] cursor-pointer overflow-hidden rounded-sm property-card" data-category="villa">
+            <img src="assets/images/prop-5.jpg" alt="Luxury Home" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
+                <div class="border-l-2 border-white/30 pl-4 group-hover:border-gold transition-colors">
+                    <h3 class="font-serif text-2xl text-white mb-1">Lekki Phase 1 Modern</h3>
+                    <div class="flex justify-between items-end mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-gold font-serif text-xl">$1.8M</span>
+                        <span class="text-xs uppercase tracking-widest text-white border-b border-white">View</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- View All Button -->
+    <div class="text-center mt-16">
+        <a href="#" class="inline-block px-10 py-4 border border-white/10 hover:border-gold text-gray-400 hover:text-white uppercase tracking-[0.2em] text-xs transition-all duration-300">
+            View All Listings
+        </a>
+    </div>
+
+</section>
+
+<!-- 
+  ========================================
+  LATEST LISTINGS: STACKING OVERLAY EFFECT
+  ========================================
+-->
+<section id="latest" class="relative bg-primary">
+    
+    <!-- The "Scroll Track" (Determines how long the animation lasts) -->
+    <!-- 400vh = 4 "pages" of scrolling -->
+    <div id="latest-scroll-track" class="relative h-[400vh]">
+        
+        <!-- Sticky Wrapper: Pinned to screen while scrolling -->
+        <div class="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
+            
+            <!-- Section Header (Fixed at top of sticky) -->
+            <div class="pt-24 pb-10 px-6 max-w-7xl mx-auto w-full reveal-up">
+                <span class="text-gold text-[10px] font-bold uppercase tracking-[0.3em] mb-2 block">New Arrivals</span>
+                <h2 class="font-serif text-3xl md:text-5xl text-white">The <span class="italic text-gray-500">Latest</span> Entry</h2>
+            </div>
+
+            <!-- The Stacking Container -->
+            <div class="relative flex-1 w-full max-w-5xl mx-auto mb-10 px-4 md:px-0">
+                
+                <!-- Card 1 (Base Layer) -->
+                <div class="latest-stack-card absolute inset-0 z-10 translate-x-0">
+                    <div class="relative h-full w-full rounded-sm overflow-hidden border border-white/5">
+                        <img src="assets/images/prop-4.jpg" class="w-full h-full object-cover" alt="Listing 1">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-8 flex flex-col justify-end">
+                            <h3 class="text-white font-serif text-3xl">Sky Glass Sanctuary</h3>
+                            <p class="text-gold text-sm tracking-widest mt-2">$5.2M — Eko Atlantic</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 (Slides over Card 1) -->
+                <div class="latest-stack-card absolute inset-0 z-20 translate-x-full">
+                    <div class="relative h-full w-full rounded-sm overflow-hidden shadow-[-20px_0_50px_rgba(0,0,0,0.5)] border-l border-white/10">
+                        <img src="assets/images/prop-5.jpg" class="w-full h-full object-cover" alt="Listing 2">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-8 flex flex-col justify-end">
+                            <h3 class="text-white font-serif text-3xl">The Obsidian Retreat</h3>
+                            <p class="text-gold text-sm tracking-widest mt-2">$3.8M — Banana Island</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 (Slides over Card 2) -->
+                <div class="latest-stack-card absolute inset-0 z-30 translate-x-full">
+                    <div class="relative h-full w-full rounded-sm overflow-hidden shadow-[-20px_0_50px_rgba(0,0,0,0.5)] border-l border-white/10">
+                        <img src="assets/images/prop-4.jpg" class="w-full h-full object-cover" alt="Listing 3">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-8 flex flex-col justify-end">
+                            <h3 class="text-white font-serif text-3xl">Gilded Manor Ikoyi</h3>
+                            <p class="text-gold text-sm tracking-widest mt-2">$14.0M — Old Ikoyi</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 (Slides over Card 3) -->
+                <div class="latest-stack-card absolute inset-0 z-40 translate-x-full">
+                    <div class="relative h-full w-full rounded-sm overflow-hidden shadow-[-20px_0_50px_rgba(0,0,0,0.5)] border-l border-white/10">
+                        <img src="assets/images/prop-1.jpg" class="w-full h-full object-cover" alt="Listing 4">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent p-8 flex flex-col justify-end">
+                            <h3 class="text-white font-serif text-3xl">Concrete Zen Loft</h3>
+                            <p class="text-gold text-sm tracking-widest mt-2">$1.2M — Victoria Island</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Custom Progress Counter (Bottom Right) -->
+            <div class="absolute bottom-10 right-10 z-50 flex items-baseline gap-2">
+                <span id="stack-current" class="text-gold text-4xl font-serif">1</span>
+                <span class="text-gray-600 text-xl">/</span>
+                <span class="text-gray-600 text-xl font-serif">4</span>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="relative py-24 bg-secondary overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left Side (Text & WhatsApp) -->
+            <div class="lg:col-span-5 space-y-8 reveal-up">
+                <span class="text-gold text-xs font-bold uppercase tracking-[0.4em] block">Private Advisory</span>
+                <h2 class="font-serif text-4xl md:text-6xl text-white">Speak With <span class="italic text-gray-500">Concierge</span></h2>
+                
+                <!-- The Integrated WhatsApp Button -->
+                <a href="https://wa.me/234XXXXXXXXXX" class="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-sm hover:border-[#25D366] transition-all group">
+                    <div class="w-12 h-12 bg-[#25D366] rounded-full flex items-center justify-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="w-6 h-6 invert" alt="WA">
+                    </div>
+                    <div>
+                        <p class="text-white font-serif">Chat via WhatsApp</p>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest">Immediate Response</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Right Side (The Glass Form) -->
+            <div class="lg:col-span-7 reveal-up delay-200">
+                <div class="bg-primary/40 backdrop-blur-[40px] p-8 md:p-12 rounded-sm border border-white/10 shadow-2xl">
+                    
+                    <!-- Error Message Display -->
+                    <div id="form-error" class="hidden text-red-500 text-xs font-bold uppercase tracking-widest mb-6 border-l-2 border-red-500 pl-4 py-1"></div>
+                    <div id="form-success" class="hidden text-[#25D366] text-xs font-bold uppercase tracking-widest mb-6 border-l-2 border-[#25D366] pl-4 py-1">Inquiry sent successfully.</div>
+
+                    <form id="advisory-form" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1">
+                                <label class="text-[10px] text-gold uppercase tracking-widest font-bold">Full Name</label>
+                                <input type="text" name="name" id="name" placeholder="Enter name" class="w-full bg-white/5 border border-white/10 p-3 text-white focus:outline-none focus:border-gold transition-all">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] text-gold uppercase tracking-widest font-bold">Email Address</label>
+                                <input type="email" name="email" id="email" placeholder="email@example.com" class="w-full bg-white/5 border border-white/10 p-3 text-white focus:outline-none focus:border-gold transition-all">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1">
+                                <label class="text-[10px] text-gold uppercase tracking-widest font-bold">Phone Number</label>
+                                <input type="tel" name="phone" id="phone" placeholder="+234..." class="w-full bg-white/5 border border-white/10 p-3 text-white focus:outline-none focus:border-gold transition-all">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] text-gold uppercase tracking-widest font-bold">Subject</label>
+                                <select name="subject" id="subject" class="w-full bg-[#1a1f2e] border border-white/10 p-3 text-white focus:outline-none focus:border-gold">
+                                    <option value="">Select Option</option>
+                                    <option value="Buying">Buying Property</option>
+                                    <option value="Selling">Listing Property</option>
+                                    <option value="Inspection">Request Inspection</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[10px] text-gold uppercase tracking-widest font-bold">Your Message</label>
+                            <textarea name="message" id="message" rows="4" placeholder="Describe your requirements" class="w-full bg-white/5 border border-white/10 p-3 text-white focus:outline-none focus:border-gold resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="w-full py-4 bg-gold text-primary font-bold text-xs uppercase tracking-[0.4em] hover:bg-white transition-all shadow-lg">
+                            Send Advisory Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 
+  ========================================
+  FOOTER SECTION
+  ========================================
+-->
+<footer class="bg-primary pt-20 pb-10 border-t border-white/5 relative overflow-hidden">
+    
+    <!-- Background Decor (Subtle Gold Glow) -->
+    <div class="absolute top-0 left-1/4 w-64 h-64 bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+            
+            <!-- Column 1: Brand & Bio -->
+            <div class="space-y-6">
+                <a href="#" class="flex items-center gap-3 group">
+                    <img src="assets/images/logo.png" alt="Logo" class="h-8 w-auto brightness-110">
+                    <span class="font-serif font-semibold text-xl tracking-tight text-white">
+                        Aurelia <span class="text-gold">Estates</span>
+                    </span>
+                </a>
+                <p class="text-gray-500 text-sm leading-relaxed max-w-xs">
+                    Curating the world's most prestigious properties for a global clientele who demand nothing less than perfection.
+                </p>
+                <!-- Social Icons -->
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-gold hover:border-gold transition-all duration-300">
+                        <span class="material-icons-outlined text-lg">public</span>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-gold hover:border-gold transition-all duration-300">
+                        <span class="material-icons-outlined text-lg">camera_alt</span>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-gold hover:border-gold transition-all duration-300">
+                        <span class="material-icons-outlined text-lg">flutter_dash</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Column 2: Navigation -->
+            <div>
+                <h4 class="text-white font-serif text-lg mb-6">The Firm</h4>
+                <ul class="space-y-4">
+                    <li><a href="#about" class="text-gray-500 hover:text-gold text-sm transition-colors tracking-wide">About Our Legacy</a></li>
+                    <li><a href="#properties" class="text-gray-500 hover:text-gold text-sm transition-colors tracking-wide">The Collection</a></li>
+                    <li><a href="#services" class="text-gray-500 hover:text-gold text-sm transition-colors tracking-wide">Expertise</a></li>
+                    <li><a href="#latest" class="text-gray-500 hover:text-gold text-sm transition-colors tracking-wide">Latest Arrivals</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Legal & Support -->
+            <div>
+                <h4 class="text-white font-serif text-lg mb-6">Legal</h4>
+                <ul class="space-y-4">
+                    <li><a href="#" class="text-gray-500 hover:text-gold text-sm transition-colors tracking-wide">Privacy Policy</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-gold text-sm transition-colors tracking-wide">Terms of Advisory</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-gold text-sm transition-colors tracking-wide">Cookie Settings</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-gold text-sm transition-colors tracking-wide">Client Portal</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Newsletter -->
+            <div>
+                <h4 class="text-white font-serif text-lg mb-6">Newsletter</h4>
+                <p class="text-gray-500 text-sm mb-6">Stay informed on off-market listings and market intelligence.</p>
+                <form class="relative">
+                    <input type="email" placeholder="Email Address" class="w-full bg-white/5 border border-white/10 py-3 px-4 text-white text-sm focus:outline-none focus:border-gold transition-all rounded-sm">
+                    <button type="submit" class="absolute right-2 top-1.5 p-1.5 text-gold hover:text-white transition-colors">
+                        <span class="material-icons-outlined">east</span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-gray-600 text-[10px] uppercase tracking-[0.3em]">
+                &copy; 2026 Aurelia Estates. All Rights Reserved.
+            </p>
+            
+            <!-- THE CREDIT -->
+            <div class="flex items-center gap-2">
+                <span class="text-gray-600 text-[10px] uppercase tracking-[0.3em]">Made with love by</span>
+                <span class="text-gold font-serif italic text-sm tracking-widest">AURA SK3TCH</span>
+            </div>
+
+            <div class="flex gap-8">
+                <p class="text-gray-600 text-[10px] uppercase tracking-[0.3em]">Lagos</p>
+                <p class="text-gray-600 text-[10px] uppercase tracking-[0.3em]">London</p>
+                <p class="text-gray-600 text-[10px] uppercase tracking-[0.3em]">Dubai</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
