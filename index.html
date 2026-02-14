@@ -139,7 +139,15 @@
     <div class="absolute inset-0 z-0">
         <!-- Heavier gradient on mobile for better text readability -->
         <div class="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-primary/90 z-10"></div>
-        <video autoplay muted loop playsinline class="w-full h-full object-cover scale-105">
+        <video 
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            preload="auto"
+            poster="assets/images/hero-poster.jpg" 
+            class="w-full h-full object-cover scale-105"
+        >
             <source src="assets/video/hero-background.mp4" type="video/mp4">
         </video>
     </div>
@@ -893,7 +901,7 @@
             <!-- THE CREDIT -->
             <div class="flex items-center gap-2">
                 <span class="text-gray-600 text-[10px] uppercase tracking-[0.3em]">Made with love by</span>
-                <span class="text-gold font-serif italic text-sm tracking-widest">AURA SK3TCH</span>
+                <span class="text-gold font-serif italic text-sm tracking-widest">AURA SK3TCH...</span>
             </div>
 
             <div class="flex gap-8">
