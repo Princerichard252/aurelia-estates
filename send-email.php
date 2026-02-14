@@ -1,37 +1,52 @@
-<?php
-header('Content-Type: application/json');
+// ==========================================
+    // ACTIVATING THE CONTACT FORM (Via Formspree)
+    // ==========================================
+    if (advisoryForm) {
+        advisoryForm.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // 1. Collect and Sanitize Data
-    $name = strip_tags(trim($_POST["name"]));
-    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
-    $phone = strip_tags(trim($_POST["phone"]));
-    $subject_interest = strip_tags(trim($_POST["subject"]));
-    $message_content = strip_tags(trim($_POST["message"]));
+            // 1. Basic Validation (Same as before)
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            if (!name || !email) {
+                errorDisplay.innerText = "Please fill in required fields.";
+                errorDisplay.classList.remove('hidden');
+                return;
+            }
 
-    // 2. Configuration
-    $recipient = "richardprince252@gmail.com";
-    $subject = "Aurelia Estates: New Inquiry - $subject_interest";
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Sending Inquiry...";
 
-    // 3. Email Body Construction
-    $email_content = "You have a new high-end inquiry from Aurelia Estates Website.\n\n";
-    $email_content .= "Client Name: $name\n";
-    $email_content .= "Client Email: $email\n";
-    $email_content .= "Client Phone: $phone\n";
-    $email_content .= "Interest: $subject_interest\n\n";
-    $email_content .= "Message:\n$message_content\n";
-
-    // 4. Email Headers
-    $email_headers = "From: Aurelia Estates <no-reply@aureliaestates.com>\r\n";
-    $email_headers .= "Reply-To: $email\r\n";
-
-    // 5. Send Email
-    if (mail($recipient, $subject, $email_content, $email_headers)) {
-        echo json_encode(["status" => "success", "message" => "Inquiry sent."]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "Mail server failed to send message."]);
+            // 2. Send to Formspree instead of PHP
+            // Replace 'mqkvpown' with your own ID after your first test
+            fetch('https://formspree.io/f/richardprince252@gmail.com', {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    successDisplay.classList.remove('hidden');
+                    advisoryForm.reset();
+                    submitBtn.innerText = "Inquiry Sent Successfully";
+                    submitBtn.style.backgroundColor = "#25D366";
+                } else {
+                    errorDisplay.innerText = "Oops! There was a problem submitting your form.";
+                    errorDisplay.classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                errorDisplay.innerText = "Unable to connect to the mail server.";
+                errorDisplay.classList.remove('hidden');
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "Send Advisory Request";
+                    submitBtn.style.backgroundColor = "";
+                }, 5000);
+            });
+        });
     }
-} else {
-    echo json_encode(["status" => "error", "message" => "Invalid request method."]);
-}
-?>
